@@ -1,0 +1,76 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+  :root {
+    --background: 10 9 13;
+    --foreground: 255 255 255;
+  }
+
+  body {
+    background-color: #0A090D;
+    color: #FFFFFF;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0A090D;
+}
+::-webkit-scrollbar-thumb {
+  background: #272435;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF9F1C;
+}
+
+/* Custom Animations & Styles */
+.gold-text-glow {
+  text-shadow: 0 0 20px rgba(247, 183, 49, 0.4), 0 0 40px rgba(255, 159, 28, 0.2);
+}
+
+.crimson-glow {
+  box-shadow: 0 0 30px rgba(224, 54, 22, 0.25);
+}
+
+.card-glass {
+  background: rgba(20, 18, 27, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(247, 183, 49, 0.15);
+}
+
+.card-glass:hover {
+  border-color: rgba(247, 183, 49, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(255, 159, 28, 0.15);
+}
+
+.badge-gold {
+  background: linear-gradient(135deg, rgba(255, 159, 28, 0.2), rgba(247, 183, 49, 0.1));
+  border: 1px solid rgba(247, 183, 49, 0.4);
+  color: #F7B731;
+}
+
+.btn-primary-gold {
+  background: linear-gradient(135deg, #FF9F1C 0%, #F7B731 50%, #E69D00 100%);
+  color: #0A090D;
+  font-weight: 700;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 20px rgba(255, 159, 28, 0.3);
+}
+
+.btn-primary-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(255, 159, 28, 0.5);
+  filter: brightness(1.08);
+}
+
+.btn-primary-gold:active {
+  transform: translateY(0);
+}
