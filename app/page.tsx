@@ -17,6 +17,7 @@ import {
   ArrowRight,
   ExternalLink,
   CheckCircle2,
+  Phone,
 } from "lucide-react";
 import { EVENT_DETAILS, INITIAL_TICKET_TYPES } from "@/lib/constants";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -389,6 +390,89 @@ export default function HomePage() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* Contact Us Section */}
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#272435]">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/20 text-[#F7B731] text-xs font-semibold uppercase tracking-wider mb-3">
+            NEED ASSISTANCE?
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold font-heading text-white">
+            Contact Us
+          </h2>
+          <p className="text-sm text-[#8E8A9F] mt-2">
+            Have questions about Garba Gala 2026 passes or venue guidelines? Reach out to our event co-ordinators directly.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {/* Contact 1 */}
+          <div className="card-glass rounded-2xl p-6 border border-[#272435] hover:border-[#F7B731]/40 transition-all text-center space-y-4 group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E03616] via-[#FF9F1C] to-[#F7B731] p-0.5 mx-auto group-hover:scale-110 transition-transform">
+              <div className="w-full h-full bg-[#0A090D] rounded-[14px] flex items-center justify-center">
+                <Phone className="w-6 h-6 text-[#F7B731]" />
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-extrabold text-white font-heading">
+                Rtr. Chittansh Pancholi
+              </h3>
+              <p className="text-xs text-[#8E8A9F] mt-1">Event Co-ordinator</p>
+            </div>
+            <a
+              href="tel:7738969033"
+              className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#14121B] border border-[#272435] text-[#F7B731] hover:text-white hover:border-[#F7B731] font-bold text-sm transition-all"
+            >
+              <Phone className="w-4 h-4" />
+              <span>📞 7738969033</span>
+            </a>
+          </div>
+
+          {/* Contact 2 */}
+          <div className="card-glass rounded-2xl p-6 border border-[#272435] hover:border-[#F7B731]/40 transition-all text-center space-y-4 group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E03616] via-[#FF9F1C] to-[#F7B731] p-0.5 mx-auto group-hover:scale-110 transition-transform">
+              <div className="w-full h-full bg-[#0A090D] rounded-[14px] flex items-center justify-center">
+                <Phone className="w-6 h-6 text-[#F7B731]" />
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-extrabold text-white font-heading">
+                Rtr. Tanish Momaya
+              </h3>
+              <p className="text-xs text-[#8E8A9F] mt-1">Event Co-ordinator</p>
+            </div>
+            <a
+              href="tel:9136930426"
+              className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#14121B] border border-[#272435] text-[#F7B731] hover:text-white hover:border-[#F7B731] font-bold text-sm transition-all"
+            >
+              <Phone className="w-4 h-4" />
+              <span>📞 9136930426</span>
+            </a>
+          </div>
+
+          {/* Contact 3 */}
+          <div className="card-glass rounded-2xl p-6 border border-[#272435] hover:border-[#F7B731]/40 transition-all text-center space-y-4 group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E03616] via-[#FF9F1C] to-[#F7B731] p-0.5 mx-auto group-hover:scale-110 transition-transform">
+              <div className="w-full h-full bg-[#0A090D] rounded-[14px] flex items-center justify-center">
+                <Phone className="w-6 h-6 text-[#F7B731]" />
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-extrabold text-white font-heading">
+                Rtr. Dr. Akanksha Dubey
+              </h3>
+              <p className="text-xs text-[#8E8A9F] mt-1">Event Co-ordinator</p>
+            </div>
+            <a
+              href="tel:8828483919"
+              className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#14121B] border border-[#272435] text-[#F7B731] hover:text-white hover:border-[#F7B731] font-bold text-sm transition-all"
+            >
+              <Phone className="w-4 h-4" />
+              <span>📞 8828483919</span>
+            </a>
+          </div>
         </div>
       </section>
 
