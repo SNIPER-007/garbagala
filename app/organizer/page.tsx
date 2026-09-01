@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { QrCode, Search, CheckCircle2, Ticket, Users, RefreshCw, Flame, ShieldCheck } from "lucide-react";
+import { QrCode, Search, CheckCircle2, Ticket, Users, RefreshCw, Flame, ShieldCheck, LogOut } from "lucide-react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 
@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 export default function OrganizerDashboardPage() {
   const router = useRouter();
-  const { user, userProfile, loading: authLoading } = useAuth();
+  const { user, userProfile, loading: authLoading, signOut } = useAuth();
 
   const [stats, setStats] = useState({
     ticketsSold: 0,
@@ -21,6 +21,11 @@ export default function OrganizerDashboardPage() {
   });
   const [loading, setLoading] = useState(true);
 
+  const handleLogout = async () => {
+    await signOut();
+    router.replace("/organizer/login");
+  };
+
   useEffect(() => {
     if (!authLoading) {
       const isAuthorized =
@@ -28,7 +33,7 @@ export default function OrganizerDashboardPage() {
         ["organizer", "checkin_staff", "super_admin"].includes(userProfile.role);
 
       if (!isAuthorized) {
-        router.push("/organizer/login");
+        router.replace("/organizer/login");
         return;
       }
     }
@@ -68,9 +73,19 @@ export default function OrganizerDashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-[#10B981] bg-[#10B981]/10 px-3 py-1.5 rounded-xl border border-[#10B981]/30">
-            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
-            <span className="font-bold">LIVE GATE SYNC ACTIVE</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 text-xs text-[#10B981] bg-[#10B981]/10 px-3 py-1.5 rounded-xl border border-[#10B981]/30">
+              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
+              <span className="font-bold">LIVE SYNC</span>
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-xl bg-[#E03616]/20 border border-[#E03616]/40 text-[#E03616] hover:bg-[#E03616] hover:text-white transition-all shadow-md cursor-pointer"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
 

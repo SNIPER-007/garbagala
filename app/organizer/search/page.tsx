@@ -2,12 +2,21 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Search, CheckCircle2, ShieldAlert, XCircle, Loader2, Ticket } from "lucide-react";
+import { ArrowLeft, Search, CheckCircle2, ShieldAlert, XCircle, Loader2, Ticket, LogOut } from "lucide-react";
 import { IndividualTicketData } from "@/lib/types";
+import { useAuth } from "@/lib/firebase/auth-context";
+import { useRouter } from "next/navigation";
 
 export default function ManualSearchPage() {
+  const router = useRouter();
+  const { signOut } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    await signOut();
+    router.replace("/organizer/login");
+  };
   const [ticketResult, setTicketResult] = useState<{
     status: string;
     message?: string;
@@ -79,7 +88,16 @@ export default function ManualSearchPage() {
           <Link href="/organizer" className="flex items-center gap-2 text-xs font-bold text-[#8E8A9F]">
             <ArrowLeft className="w-4 h-4" /> Organizer Console
           </Link>
-          <span className="text-xs font-extrabold text-[#F7B731] font-heading">MANUAL LOOKUP</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-extrabold text-[#F7B731] font-heading">MANUAL LOOKUP</span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-xl bg-[#E03616]/20 border border-[#E03616]/40 text-[#E03616] hover:bg-[#E03616] hover:text-white transition-all cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
 
         {/* Search Bar */}

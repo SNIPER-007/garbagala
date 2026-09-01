@@ -3,8 +3,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { Html5Qrcode } from "html5-qrcode";
-import { ArrowLeft, CheckCircle2, ShieldAlert, XCircle, Loader2, QrCode, RefreshCw } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ShieldAlert, XCircle, Loader2, QrCode, RefreshCw, LogOut } from "lucide-react";
 import { IndividualTicketData } from "@/lib/types";
+import { useAuth } from "@/lib/firebase/auth-context";
+import { useRouter } from "next/navigation";
 
 type ScanResultState = {
   status: "idle" | "valid" | "already_checked_in" | "invalid" | "unpaid" | "cancelled" | "success";
@@ -15,19 +17,38 @@ type ScanResultState = {
 };
 
 export default function QrScannerPage() {
+  const router = useRouter();
+  const { userProfile, loading: authLoading, signOut } = useAuth();
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const [scanning, setScanning] = useState(false);
   const [scannedToken, setScannedToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [checkinState, setCheckinState] = useState<ScanResultState>({ status: "idle" });
 
+  const handleLogout = async () => {
+    await stopCameraScanner();
+    await signOut();
+    router.replace("/organizer/login");
+  };
+
   useEffect(() => {
+    if (!authLoading) {
+      const isAuthorized =
+        userProfile &&
+        ["organizer", "checkin_staff", "super_admin"].includes(userProfile.role);
+
+      if (!isAuthorized) {
+        router.replace("/organizer/login");
+        return;
+      }
+    }
+
     startCameraScanner();
 
     return () => {
       stopCameraScanner();
     };
-  }, []);
+  }, [authLoading, userProfile, router]);
 
   const startCameraScanner = async () => {
     try {
@@ -146,7 +167,17 @@ export default function QrScannerPage() {
           <Link href="/organizer" className="flex items-center gap-2 text-xs font-bold text-[#8E8A9F]">
             <ArrowLeft className="w-4 h-4" /> Gate Console
           </Link>
-          <span className="text-xs font-extrabold text-[#F7B731] font-heading">CAMERA SCANNER</span>
+
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-extrabold text-[#F7B731] font-heading">CAMERA SCANNER</span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-xl bg-[#E03616]/20 border border-[#E03616]/40 text-[#E03616] hover:bg-[#E03616] hover:text-white transition-all cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
 
         {/* Camera Viewfinder Box */}
