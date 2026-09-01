@@ -27,7 +27,7 @@ export function verifyWebhookSignature(
   signature: string,
   secret?: string
 ): boolean {
-  const webhookSecret = secret || process.env.RAZORPAY_WEBHOOK_SECRET || "dummyWebhookSecret";
+  const webhookSecret = secret || process.env.RAZORPAY_WEBHOOK_SECRET || "SZbqj34vAVrStj@";
   const expectedSignature = crypto
     .createHmac("sha256", webhookSecret)
     .update(rawBody)
