@@ -1,22 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { CheckCircle2, Loader2, Ticket, Mail, Download, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { CheckCircle2, Loader2, Ticket, Mail, ShieldCheck } from "lucide-react";
 import confetti from "canvas-confetti";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase/config";
 import { BookingData, IndividualTicketData } from "@/lib/types";
 
-export default function BookingSuccessPage() {
+// ─── Inner component that safely uses useSearchParams() ──────────────────────
+function BookingSuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const bookingId = searchParams.get("bookingId");
 
   const [status, setStatus] = useState<"verifying" | "paid" | "failed">("verifying");
-  const [booking, setBooking] = useState<BookingData | null>(null);
-  const [tickets, setTickets] = useState<IndividualTicketData[]>([]);
 
   useEffect(() => {
     if (!bookingId) return;
@@ -64,7 +61,7 @@ export default function BookingSuccessPage() {
             <Loader2 className="w-12 h-12 animate-spin text-[#F7B731] mx-auto" />
             <div className="space-y-2">
               <h1 className="text-2xl font-extrabold font-heading text-white">
-                Verifying Payment & Generating Tickets...
+                Verifying Payment &amp; Generating Tickets...
               </h1>
               <p className="text-xs text-[#8E8A9F]">
                 Performing secure server-side verification for Booking <strong>{bookingId}</strong>. Please do not close or refresh this page.
@@ -87,7 +84,7 @@ export default function BookingSuccessPage() {
               </div>
               <div>
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#10B981] badge-gold px-3 py-1 rounded-full">
-                  PAYMENT VERIFIED & CONFIRMED
+                  PAYMENT VERIFIED &amp; CONFIRMED
                 </span>
                 <h1 className="text-3xl sm:text-4xl font-extrabold font-heading text-white mt-3">
                   Garba Gala 2026 Pass Confirmed!
@@ -105,7 +102,7 @@ export default function BookingSuccessPage() {
                 <span className="font-bold text-white">Garba Gala 2026</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-[#272435]">
-                <span className="text-[#8E8A9F] uppercase font-bold">Date & Venue</span>
+                <span className="text-[#8E8A9F] uppercase font-bold">Date &amp; Venue</span>
                 <span className="font-bold text-white text-right">27 Sept 2026 • Golden Celebration Hall</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-[#272435]">
@@ -115,7 +112,7 @@ export default function BookingSuccessPage() {
               <div className="flex justify-between items-center">
                 <span className="text-[#8E8A9F] uppercase font-bold">Status</span>
                 <span className="font-bold text-[#10B981] flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> PAID & ISSUED
+                  <CheckCircle2 className="w-3.5 h-3.5" /> PAID &amp; ISSUED
                 </span>
               </div>
             </div>
@@ -135,7 +132,7 @@ export default function BookingSuccessPage() {
                 className="btn-primary-gold flex-1 py-3.5 rounded-xl font-bold text-center flex items-center justify-center gap-2 text-sm"
               >
                 <Ticket className="w-4 h-4" />
-                <span>VIEW MY PASSES & QR CODES</span>
+                <span>VIEW MY PASSES &amp; QR CODES</span>
               </Link>
               <Link
                 href="/"
@@ -149,7 +146,7 @@ export default function BookingSuccessPage() {
           <div className="card-glass rounded-3xl p-10 text-center border border-[#E03616] space-y-4">
             <h1 className="text-2xl font-bold text-[#E03616]">Payment Verification Warning</h1>
             <p className="text-xs text-[#8E8A9F]">
-              Verification takes up to 30 seconds. If your payment was deducted, your tickets will automatically appear in your 'My Tickets' section.
+              Verification takes up to 30 seconds. If your payment was deducted, your tickets will automatically appear in your &apos;My Tickets&apos; section.
             </p>
             <Link
               href="/my-tickets"
@@ -161,5 +158,28 @@ export default function BookingSuccessPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// ─── Loading skeleton shown while Suspense resolves ──────────────────────────
+function BookingSuccessFallback() {
+  return (
+    <div className="min-h-screen bg-[#0A090D] py-16 px-4 flex items-center justify-center">
+      <div className="max-w-2xl w-full card-glass rounded-3xl p-10 text-center border border-[#272435] space-y-6">
+        <Loader2 className="w-12 h-12 animate-spin text-[#F7B731] mx-auto" />
+        <h1 className="text-2xl font-extrabold font-heading text-white">
+          Loading Booking Details...
+        </h1>
+      </div>
+    </div>
+  );
+}
+
+// ─── Default export wraps the content in Suspense ────────────────────────────
+export default function BookingSuccessPage() {
+  return (
+    <Suspense fallback={<BookingSuccessFallback />}>
+      <BookingSuccessContent />
+    </Suspense>
   );
 }
