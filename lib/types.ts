@@ -61,8 +61,9 @@ export interface BookingData {
   currency: string;
   paymentStatus: PaymentStatus;
   bookingStatus: BookingStatus;
-  razorpayOrderId?: string;
-  razorpayPaymentId?: string;
+  paymentProvider?: 'payu';
+  payuTxnId?: string;
+  payuPaymentId?: string;
   paymentVerifiedAt?: string;
   createdAt: string;
   updatedAt: string;
@@ -91,9 +92,9 @@ export interface IndividualTicketData {
 export interface PaymentRecord {
   paymentId: string;
   bookingId: string;
-  razorpayOrderId: string;
-  razorpayPaymentId?: string;
-  razorpaySignature?: string;
+  paymentProvider: 'payu';
+  payuTxnId: string;
+  payuPaymentId?: string;
   amount: number;
   currency: string;
   status: PaymentStatus;

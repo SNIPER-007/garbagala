@@ -1,14 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import Script from "next/script";
 import { Ticket, User, Mail, Phone, ShieldCheck, ArrowRight, Minus, Plus, Loader2, Sparkles } from "lucide-react";
 import { useAuth } from "@/lib/firebase/auth-context";
 import { EVENT_DETAILS } from "@/lib/constants";
 
 export default function CheckoutPage() {
-  const router = useRouter();
   const { user, userProfile } = useAuth();
 
   const [quantity, setQuantity] = useState(1);
@@ -66,83 +63,25 @@ export default function CheckoutPage() {
         throw new Error(data.error || "Failed to initialize payment order.");
       }
 
-      const { bookingId, orderId, amount, currency, keyId } = data;
-
-      // 2. Open Razorpay Checkout Modal if Razorpay script loaded
-      if (typeof window !== "undefined" && (window as any).Razorpay) {
-        const options = {
-          key: keyId,
-          amount,
-          currency,
-          name: "Garba Gala 2026",
-          description: `Garba Gala Entry Pass (${quantity} Tickets)`,
-          order_id: orderId,
-          prefill: {
-            name,
-            email,
-            contact: phone,
-          },
-          theme: {
-            color: "#FF9F1C",
-          },
-          handler: async function (response: any) {
-            setLoading(true);
-            try {
-              // 3. Verify Payment Server-Side
-              const verifyRes = await fetch("/api/verify-payment", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  bookingId,
-                  razorpayOrderId: response.razorpay_order_id,
-                  razorpayPaymentId: response.razorpay_payment_id,
-                  razorpaySignature: response.razorpay_signature,
-                }),
-              });
-
-              const verifyData = await verifyRes.json();
-
-              if (verifyData.success) {
-                router.push(`/booking/success?bookingId=${bookingId}`);
-              } else {
-                throw new Error(verifyData.error || "Payment verification failed.");
-              }
-            } catch (err: any) {
-              setErrorMessage(err.message || "Payment verification error.");
-              setLoading(false);
-            }
-          },
-          modal: {
-            ondismiss: function () {
-              setLoading(false);
-            },
-          },
-        };
-
-        const rzp = new (window as any).Razorpay(options);
-        rzp.on("payment.failed", function (response: any) {
-          setErrorMessage(response.error?.description || "Payment failed or cancelled.");
-          setLoading(false);
-        });
-        rzp.open();
-      } else {
-        // Fallback simulation for local/testing environments without external script load
-        const verifyRes = await fetch("/api/verify-payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            bookingId,
-            razorpayOrderId: orderId,
-            razorpayPaymentId: `pay_simulated_${Date.now()}`,
-          }),
-        });
-        const verifyData = await verifyRes.json();
-        if (verifyData.success) {
-          router.push(`/booking/success?bookingId=${bookingId}`);
-        } else {
-          throw new Error(verifyData.error || "Payment processing failed.");
-        }
+      if (!data.paymentUrl || !data.fields) {
+        throw new Error("Payment gateway response was incomplete.");
       }
+
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = data.paymentUrl;
+      form.style.display = "none";
+
+      Object.entries(data.fields).forEach(([key, value]) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = String(value);
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
     } catch (err: any) {
       console.error("Checkout error:", err);
       setErrorMessage(err.message || "Checkout failed. Please try again.");
@@ -152,9 +91,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-[#0A090D] py-12 px-4 sm:px-6 lg:px-8">
-      {/* Load Razorpay Script */}
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
-
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full badge-gold text-xs font-bold uppercase tracking-wider">
@@ -311,7 +247,7 @@ export default function CheckoutPage() {
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5" />
-                    <span>PAY ₹{totalAmount} VIA RAZORPAY</span>
+                    <span>PAY ₹{totalAmount} VIA PAYU</span>
                     <ArrowRight className="w-5 h-5" />
                   </>
                 )}
@@ -320,7 +256,7 @@ export default function CheckoutPage() {
               <div className="text-[11px] text-[#8E8A9F] space-y-2 pt-2 border-t border-[#272435]">
                 <p className="flex items-center gap-1.5 text-[#FF9F1C] font-semibold">
                   <ShieldCheck className="w-4 h-4 text-[#F7B731]" />
-                  256-Bit SSL Encrypted Razorpay Checkout
+                  Secure PayU Hosted Checkout
                 </p>
                 <p>
                   Tickets are strictly non-refundable and non-transferable. Passes will be emailed immediately upon successful payment verification.

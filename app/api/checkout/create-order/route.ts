@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { razorpay } from "@/lib/razorpay";
 import { adminDb } from "@/lib/firebase-admin/config";
 import { EVENT_DETAILS } from "@/lib/constants";
+import { buildPayUCheckoutFields, getPayUPaymentUrl } from "@/lib/payu";
 
 export async function POST(request: Request) {
   try {
@@ -24,12 +24,21 @@ export async function POST(request: Request) {
     let price = 450;
     let totalQuantity = 150;
     let soldQuantity = 0;
+    let status = "active";
 
     if (ticketTypeSnap.exists) {
       const data = ticketTypeSnap.data()!;
       price = data.price ?? 450;
       totalQuantity = data.totalQuantity ?? 150;
       soldQuantity = data.soldQuantity ?? 0;
+      status = data.status ?? "active";
+    }
+
+    if (status !== "active") {
+      return NextResponse.json(
+        { error: "This ticket type is not currently available." },
+        { status: 400 }
+      );
     }
 
     const available = totalQuantity - soldQuantity;
@@ -42,22 +51,20 @@ export async function POST(request: Request) {
 
     const subtotal = price * qty;
     const totalAmount = subtotal;
-
-    // Create Razorpay order
-    const razorpayOrder = await razorpay.orders.create({
-      amount: totalAmount * 100, // Amount in paise
-      currency: "INR",
-      receipt: `rcpt_${Date.now()}`,
-      notes: {
-        purchaserName,
-        purchaserEmail,
-        quantity: qty,
-        eventId: EVENT_DETAILS.eventId,
-      },
+    const bookingSeedRef = adminDb.collection("bookings").doc();
+    const bookingId = `GG26-${bookingSeedRef.id.substring(0, 6).toUpperCase()}`;
+    const bookingRef = adminDb.collection("bookings").doc(bookingId);
+    const payuTxnId = `GG26${Date.now()}${bookingSeedRef.id.substring(0, 6)}`;
+    const now = new Date().toISOString();
+    const checkoutFields = buildPayUCheckoutFields({
+      request,
+      txnid: payuTxnId,
+      bookingId,
+      amount: totalAmount,
+      firstname: purchaserName,
+      email: purchaserEmail,
+      phone: purchaserPhone,
     });
-
-    const bookingRef = adminDb.collection("bookings").doc();
-    const bookingId = `GG26-${bookingRef.id.substring(0, 6).toUpperCase()}`;
 
     const newBooking = {
       bookingId,
@@ -73,9 +80,12 @@ export async function POST(request: Request) {
       currency: "INR",
       paymentStatus: "pending",
       bookingStatus: "pending",
-      razorpayOrderId: razorpayOrder.id,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      paymentProvider: "payu",
+      payuTxnId,
+      payuAmount: checkoutFields.amount,
+      payuProductInfo: checkoutFields.productinfo,
+      createdAt: now,
+      updatedAt: now,
     };
 
     await bookingRef.set(newBooking);
@@ -83,10 +93,9 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       bookingId,
-      orderId: razorpayOrder.id,
-      amount: razorpayOrder.amount,
-      currency: razorpayOrder.currency,
-      keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID || "rzp_test_dummyKeyId",
+      paymentProvider: "payu",
+      paymentUrl: getPayUPaymentUrl(),
+      fields: checkoutFields,
     });
   } catch (error: any) {
     console.error("Create order API error:", error);

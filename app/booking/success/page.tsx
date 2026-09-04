@@ -71,7 +71,7 @@ function BookingSuccessContent() {
             <div className="p-4 rounded-xl bg-[#0A090D] border border-[#272435] text-xs text-[#B5B1C5] space-y-2">
               <div className="flex items-center gap-2 justify-center text-[#F7B731]">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Checking Razorpay signature and inventory allocation...</span>
+                <span>Checking PayU payment status and inventory allocation...</span>
               </div>
             </div>
           </div>
