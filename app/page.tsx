@@ -298,7 +298,7 @@ export default function HomePage() {
                 <MapPin className="w-5 h-5 text-[#FF9F1C] shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-bold text-white">Address</p>
-                  <p className="text-xs text-[#8E8A9F]">Mulund West, Mumbai, Maharashtra</p>
+                  <p className="text-xs text-[#8E8A9F]">Mulund West, Mumbai 400080, Maharashtra</p>
                 </div>
               </div>
 
