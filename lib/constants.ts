@@ -23,6 +23,8 @@ export const EVENT_DETAILS = {
     "Rotaract Club of Mumbai Medico Marvel",
     "Nisha Soni",
     "Dipti Vora",
+    "Pooja Dedhia",
+    "Romil Bharat Lodaya",
   ],
   faqs: [
     {
