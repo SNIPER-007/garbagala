@@ -13,8 +13,8 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/tickets", label: "Passes" },
-    { href: "/my-tickets", label: "My Tickets", icon: Ticket },
+    { href: "/tickets", label: "Get Passes", icon: Ticket },
+    { href: "/my-tickets", label: "My Tickets", icon: Sparkles },
   ];
 
   if (userProfile?.role === "organizer" || userProfile?.role === "checkin_staff" || userProfile?.role === "super_admin") {

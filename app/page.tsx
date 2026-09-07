@@ -22,6 +22,9 @@ import {
 import { EVENT_DETAILS, INITIAL_TICKET_TYPES } from "@/lib/constants";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
+import FestiveDivider from "@/components/FestiveDivider";
+import EventCreatives from "@/components/EventCreatives";
+import SponsorsSection from "@/components/SponsorsSection";
 
 export default function HomePage() {
   const [ticketType, setTicketType] = useState(INITIAL_TICKET_TYPES[0]);
@@ -57,7 +60,7 @@ export default function HomePage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[650px] bg-hero-glow pointer-events-none z-0 opacity-80" />
 
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 md:pt-20 md:pb-32">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 md:pt-20 md:pb-28">
         <div className="text-center space-y-6 max-w-4xl mx-auto">
           {/* Live Status Pill */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full badge-gold text-xs font-semibold tracking-wide uppercase shadow-lg">
@@ -65,7 +68,7 @@ export default function HomePage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF9F1C] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F7B731]"></span>
             </span>
-            GENERAL SALE LIVE NOW • LIMITED TO 150 PASSES
+            GENERAL SALE LIVE NOW • ₹450 PASS (150 TOTAL)
           </div>
 
           {/* Main Editorial Title */}
@@ -77,7 +80,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-[#B5B1C5] max-w-2xl mx-auto leading-relaxed">
-            Mumbai's premier traditional Garba & Dandiya spectacle. Immerse yourself in an unforgettable evening of live music, cultural rhythm, and festive bliss.
+            Mumbai's festive night of Garba, Dandiya & live music. Immerse yourself in an unforgettable evening of traditional rhythm, live star performers, and festive celebration.
           </p>
 
           {/* Key Event Details Grid */}
@@ -127,17 +130,17 @@ export default function HomePage() {
               className="btn-primary-gold w-full sm:w-auto px-8 py-4 rounded-2xl text-lg font-extrabold flex items-center justify-center gap-3 shadow-2xl group"
             >
               <Ticket className="w-5 h-5 text-[#0A090D] group-hover:rotate-12 transition-transform" />
-              <span>GET YOUR PASS • ₹450</span>
+              <span>BUY PASS • ₹450</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
 
-            <a
-              href="#artists"
+            <Link
+              href="/tickets"
               className="w-full sm:w-auto px-6 py-4 rounded-2xl border border-[#272435] text-[#B5B1C5] hover:text-white hover:border-[#F7B731]/40 text-sm font-semibold flex items-center justify-center gap-2 bg-[#14121B]"
             >
-              <Music className="w-4 h-4 text-[#F7B731]" />
-              View Live Artists
-            </a>
+              <Sparkles className="w-4 h-4 text-[#F7B731]" />
+              View Pass Details & Terms
+            </Link>
           </div>
 
           {/* Inventory Progress Pill */}
@@ -150,17 +153,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      <FestiveDivider />
+
       {/* Ticket Showcase Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#272435]">
-        <div className="text-center max-w-2xl mx-auto mb-12">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/20 text-[#F7B731] text-xs font-semibold uppercase tracking-wider mb-3">
-            OFFICIAL ADMISSION PASS
+            OFFICIAL PASS DETAILS
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
-            General Sale Ticket Pass
+            General Sale Ticket Pass — ₹450
           </h2>
           <p className="text-sm text-[#8E8A9F] mt-2">
-            Instant digital ticket generation with secure unique QR pass delivered directly to your email.
+            Includes entry to Garba Gala 2026, access to Dandiya dance floor, live orchestra & food court.
           </p>
         </div>
 
@@ -175,10 +180,10 @@ export default function HomePage() {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-2xl font-extrabold text-white font-heading">
-                    {ticketType.name}
+                    {ticketType.name} Pass
                   </h3>
                   <p className="text-xs text-[#8E8A9F] mt-1">
-                    Garba Gala 2026 • Single Entry Pass
+                    Garba Gala 2026 • 27 September 2026
                   </p>
                 </div>
                 <div className="text-right">
@@ -203,7 +208,7 @@ export default function HomePage() {
                 </li>
                 <li className="flex items-center gap-3">
                   <CheckCircle2 className="w-4 h-4 text-[#F7B731]" />
-                  <span>Unique ticket number & secure scanner QR code</span>
+                  <span>Unique ticket number & secure QR code pass</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <CheckCircle2 className="w-4 h-4 text-[#F7B731]" />
@@ -229,20 +234,24 @@ export default function HomePage() {
                     : "bg-gray-800 text-gray-400 cursor-not-allowed"
                 }`}
               >
-                {remainingQuantity > 0 ? "BUY TICKETS NOW →" : "SOLD OUT"}
+                {remainingQuantity > 0 ? "BUY PASS — ₹450 →" : "SOLD OUT"}
               </Link>
 
-              <p className="text-center text-[11px] text-[#8E8A9F]">
-                Multiple tickets per purchaser supported. Issued under purchaser name.
-              </p>
+              <div className="text-center">
+                <Link href="/tickets" className="text-xs text-[#F7B731] font-semibold hover:underline">
+                  View full pass details & terms page →
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
+      <FestiveDivider />
+
       {/* Artist Roster Section */}
-      <section id="artists" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#272435]">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+      <section id="artists" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/20 text-[#F7B731] text-xs font-semibold uppercase tracking-wider mb-3">
             LIVE PERFORMANCE ROSTER
           </div>
@@ -272,15 +281,22 @@ export default function HomePage() {
                 {artist.role}
               </p>
               <p className="text-xs text-[#8E8A9F] mt-3">
-                Bringing soulful folk vocals, acoustic percussion beats, and high-energy Garba rhythms.
+                Bringing folk vocals, percussion beats, and high-energy Garba rhythms.
               </p>
             </div>
           ))}
         </div>
       </section>
 
+      <FestiveDivider />
+
+      {/* Promotional Creatives Gallery */}
+      <EventCreatives />
+
+      <FestiveDivider />
+
       {/* Venue & Experience Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#272435]">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/20 text-[#F7B731] text-xs font-semibold uppercase tracking-wider">
@@ -290,7 +306,7 @@ export default function HomePage() {
               Golden Celebration Hall
             </h2>
             <p className="text-base text-[#B5B1C5] leading-relaxed">
-              Located in the heart of Mulund West, Mumbai. A air-conditioned indoor venue with spacious Garba dance floors, state-of-the-art acoustic sound systems, and dedicated security infrastructure.
+              Located in the heart of Mulund West, Mumbai. An air-conditioned indoor venue with spacious Garba dance floors, acoustic sound systems, and security.
             </p>
 
             <div className="space-y-3 pt-2">
@@ -298,14 +314,14 @@ export default function HomePage() {
                 <MapPin className="w-5 h-5 text-[#FF9F1C] shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-bold text-white">Address</p>
-                  <p className="text-xs text-[#8E8A9F]">Mulund West, Mumbai 400080, Maharashtra</p>
+                  <p className="text-xs text-[#8E8A9F]">Mulund West, Mumbai, Maharashtra</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <Users className="w-5 h-5 text-[#F7B731] shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-bold text-white">Organizers</p>
+                  <p className="text-sm font-bold text-white">Organisers</p>
                   <p className="text-xs text-[#8E8A9F]">
                     {EVENT_DETAILS.organisers.join(" • ")}
                   </p>
@@ -332,15 +348,15 @@ export default function HomePage() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[#B5B1C5]">
               <div className="p-4 rounded-xl bg-[#0A090D] border border-[#272435]">
-                <span className="text-[#F7B731] font-bold block mb-1">🎵 Live Orchestra</span>
-                <span>Non-stop high-energy acoustic & electric fusion Garba music.</span>
+                <span className="text-[#F7B731] font-bold block mb-1">🎵 Live Band & Orchestra</span>
+                <span>High-energy Garba music with live band & percussion.</span>
               </div>
               <div className="p-4 rounded-xl bg-[#0A090D] border border-[#272435]">
                 <span className="text-[#FF9F1C] font-bold block mb-1">👑 Traditional Attire</span>
-                <span>Grand traditional Chaniya Choli & Kediyu fashion night.</span>
+                <span>Traditional Chaniya Choli & Kediyu festive night.</span>
               </div>
               <div className="p-4 rounded-xl bg-[#0A090D] border border-[#272435]">
-                <span className="text-[#E03616] font-bold block mb-1">🍔 Food & Drinks</span>
+                <span className="text-[#E03616] font-bold block mb-1">🍔 Food Stalls</span>
                 <span>Delicious food court stalls with traditional festive snacks.</span>
               </div>
               <div className="p-4 rounded-xl bg-[#0A090D] border border-[#272435]">
@@ -352,8 +368,15 @@ export default function HomePage() {
         </div>
       </section>
 
+      <FestiveDivider />
+
+      {/* Sponsors & Partners */}
+      <SponsorsSection />
+
+      <FestiveDivider />
+
       {/* FAQ Accordion Section */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#272435]">
+      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
             Frequently Asked Questions
@@ -394,7 +417,7 @@ export default function HomePage() {
       </section>
 
       {/* Contact Us Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#272435]">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#272435]">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/20 text-[#F7B731] text-xs font-semibold uppercase tracking-wider mb-3">
             NEED ASSISTANCE?
@@ -403,7 +426,7 @@ export default function HomePage() {
             Contact Us
           </h2>
           <p className="text-sm text-[#8E8A9F] mt-2">
-            Have questions about Garba Gala 2026 passes or venue guidelines? Reach out to our event co-ordinators directly.
+            Reach out to our event co-ordinators directly for any queries regarding passes or guidelines.
           </p>
         </div>
 
@@ -477,22 +500,28 @@ export default function HomePage() {
       </section>
 
       {/* Final Ticket CTA Banner */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#272435]">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#272435]">
         <div className="card-glass rounded-3xl p-10 text-center border-2 border-[#F7B731]/40 relative overflow-hidden bg-hero-glow">
           <div className="max-w-2xl mx-auto space-y-6">
             <h2 className="text-4xl sm:text-5xl font-extrabold font-heading text-white">
-              Don't Miss Mumbai's Biggest Garba Night!
+              Secure Your Pass For Garba Gala 2026
             </h2>
             <p className="text-base text-[#B5B1C5]">
               General Sale passes are limited to 150 passes. Book your entry pass now for ₹450!
             </p>
-            <div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/checkout"
                 className="btn-primary-gold inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-extrabold shadow-2xl"
               >
                 <Sparkles className="w-5 h-5" />
-                BOOK PASSES NOW • ₹450
+                BUY PASS — ₹450
+              </Link>
+              <Link
+                href="/tickets"
+                className="px-6 py-4 rounded-2xl border border-[#272435] text-white hover:border-[#F7B731] text-sm font-bold bg-[#14121B]"
+              >
+                View Pass Details & Terms
               </Link>
             </div>
           </div>

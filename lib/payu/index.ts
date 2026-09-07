@@ -62,14 +62,19 @@ function getBaseUrlFromRequest(request: Request): string {
   return requestUrl.origin;
 }
 
+function isPayUTestMode(): boolean {
+  const env = (process.env.PAYU_ENVIRONMENT || process.env.PAYU_ENV || "").toLowerCase();
+  return env === "test";
+}
+
 export function getPayUPaymentUrl(): string {
-  return process.env.PAYU_ENV === "test"
+  return isPayUTestMode()
     ? "https://test.payu.in/_payment"
     : "https://secure.payu.in/_payment";
 }
 
 export function getPayUVerifyUrl(): string {
-  return process.env.PAYU_ENV === "test"
+  return isPayUTestMode()
     ? "https://test.payu.in/merchant/postservice.php?form=2"
     : "https://info.payu.in/merchant/postservice.php?form=2";
 }
