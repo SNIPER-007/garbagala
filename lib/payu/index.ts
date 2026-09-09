@@ -35,8 +35,8 @@ export type PayUVerifiedPayment = {
 const PRODUCT_INFO = "Garba Gala 2026 General Sale Pass";
 
 function getPayUCredentials() {
-  const key = process.env.PAYU_MERCHANT_KEY;
-  const salt = process.env.PAYU_MERCHANT_SALT;
+  const key = process.env.PAYU_MERCHANT_KEY?.trim();
+  const salt = process.env.PAYU_MERCHANT_SALT?.trim();
 
   if (!key || !salt) {
     throw new Error("PayU merchant credentials are not configured.");
@@ -258,7 +258,7 @@ export async function verifyPayUPayment(txnid: string): Promise<PayUVerifiedPaym
     mihpayid: details.mihpayid,
     status: details.status,
     unmappedstatus: details.unmappedstatus,
-    amount: String(details.amt ?? details.amount ?? ""),
+    amount: String(details.amt ?? details.amount ?? details.transaction_amount ?? ""),
     netAmountDebit: details.net_amount_debit ? String(details.net_amount_debit) : undefined,
     mode: details.mode,
     bankRefNum: details.bank_ref_num || details.bank_ref_no,
