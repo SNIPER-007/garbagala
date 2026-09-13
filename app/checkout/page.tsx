@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Ticket, User, Mail, Phone, ShieldCheck, ArrowRight, Minus, Plus, Loader2, Sparkles } from "lucide-react";
+import { Ticket, User, Mail, Phone, ShieldCheck, ArrowRight, Minus, Plus, Loader2, Sparkles, Tag, CheckCircle2, X } from "lucide-react";
 import { useAuth } from "@/lib/firebase/auth-context";
 import { EVENT_DETAILS } from "@/lib/constants";
 
@@ -15,9 +15,16 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Coupon state
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  const [couponError, setCouponError] = useState("");
+  const [couponSuccess, setCouponSuccess] = useState("");
+
   const unitPrice = 450;
   const subtotal = unitPrice * quantity;
-  const totalAmount = subtotal;
+  const discountAmount = appliedCoupon === "NATYAMGARBA5" ? Number((subtotal * 0.05).toFixed(2)) : 0;
+  const totalAmount = Number((subtotal - discountAmount).toFixed(2));
 
   const handleDecreaseQty = () => {
     if (quantity > 1) setQuantity((prev) => prev - 1);
@@ -25,6 +32,34 @@ export default function CheckoutPage() {
 
   const handleIncreaseQty = () => {
     if (quantity < 10) setQuantity((prev) => prev + 1);
+  };
+
+  const handleApplyCoupon = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCouponError("");
+    setCouponSuccess("");
+
+    const code = couponInput.trim().toUpperCase();
+    if (!code) {
+      setCouponError("Please enter a coupon code.");
+      return;
+    }
+
+    if (code === "NATYAMGARBA5") {
+      setAppliedCoupon("NATYAMGARBA5");
+      setCouponSuccess("Coupon applied successfully — 5 percent off");
+      setCouponError("");
+    } else {
+      setCouponError("Invalid coupon code.");
+      setCouponSuccess("");
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponInput("");
+    setCouponError("");
+    setCouponSuccess("");
   };
 
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
@@ -54,6 +89,7 @@ export default function CheckoutPage() {
           purchaserPhone: phone,
           quantity,
           customerId: user?.uid || "guest",
+          couponCode: appliedCoupon || undefined,
         }),
       });
 
@@ -209,6 +245,68 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
+
+            {/* Step 3: Coupon Code Section */}
+            <div className="card-glass rounded-2xl p-6 border border-[#272435] space-y-4">
+              <h2 className="text-lg font-bold text-white font-heading pb-2 border-b border-[#272435] flex items-center gap-2">
+                <Tag className="w-4 h-4 text-[#F7B731]" />
+                3. Coupon Code
+              </h2>
+
+              <p className="text-xs text-[#B5B1C5]">Have a coupon code?</p>
+
+              {appliedCoupon ? (
+                <div className="p-4 rounded-xl bg-[#10B981]/15 border border-[#10B981]/40 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-[#10B981] shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold text-[#10B981]">
+                        Coupon applied successfully — 5 percent off
+                      </p>
+                      <p className="text-[11px] text-[#B5B1C5]">
+                        Code: <strong className="text-white">{appliedCoupon}</strong> (Saving ₹{discountAmount.toFixed(2)})
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemoveCoupon}
+                    className="p-1.5 rounded-lg bg-[#14121B] border border-[#272435] text-[#8E8A9F] hover:text-white hover:border-[#E03616]"
+                    title="Remove Coupon"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter coupon code"
+                      value={couponInput}
+                      onChange={(e) => {
+                        setCouponInput(e.target.value);
+                        setCouponError("");
+                      }}
+                      className="flex-1 bg-[#0A090D] border border-[#272435] rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#F7B731] uppercase tracking-wider font-semibold"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyCoupon}
+                      className="px-5 py-2.5 rounded-xl bg-[#272435] hover:bg-[#F7B731] hover:text-[#0A090D] text-white text-xs font-bold transition-all shrink-0"
+                    >
+                      APPLY
+                    </button>
+                  </div>
+
+                  {couponError && (
+                    <p className="text-xs text-[#E03616] font-semibold pl-1">
+                      {couponError}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Right Column: Order Summary & Payment Button */}
@@ -220,9 +318,17 @@ export default function CheckoutPage() {
 
               <div className="space-y-3 text-xs border-b border-[#272435] pb-4">
                 <div className="flex justify-between text-[#B5B1C5]">
-                  <span>General Sale Pass × {quantity}</span>
-                  <span>₹{subtotal}</span>
+                  <span>Ticket Price ({quantity} × ₹450.00)</span>
+                  <span>₹{subtotal.toFixed(2)}</span>
                 </div>
+
+                {appliedCoupon && (
+                  <div className="flex justify-between text-[#10B981] font-semibold">
+                    <span>Discount ({appliedCoupon})</span>
+                    <span>-₹{discountAmount.toFixed(2)}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between text-[#B5B1C5]">
                   <span>Convenience & Verification Fee</span>
                   <span className="text-[#10B981] font-bold">FREE</span>
@@ -230,8 +336,8 @@ export default function CheckoutPage() {
               </div>
 
               <div className="flex justify-between items-center text-lg font-extrabold text-white">
-                <span>Total Payable</span>
-                <span className="text-2xl text-[#F7B731] font-heading">₹{totalAmount}</span>
+                <span>Final Price</span>
+                <span className="text-2xl text-[#F7B731] font-heading">₹{totalAmount.toFixed(2)}</span>
               </div>
 
               <button
@@ -247,7 +353,7 @@ export default function CheckoutPage() {
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5" />
-                    <span>PAY ₹{totalAmount} VIA PAYU</span>
+                    <span>PAY ₹{totalAmount.toFixed(2)} VIA PAYU</span>
                     <ArrowRight className="w-5 h-5" />
                   </>
                 )}

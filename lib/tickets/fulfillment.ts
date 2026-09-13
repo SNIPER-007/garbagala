@@ -126,6 +126,8 @@ export async function fulfillPaidBooking(input: {
     ticketNumbers: finalTicketNumbers,
     quantity: bookingData.quantity,
     totalAmount: bookingData.totalAmount,
+    couponCode: bookingData.couponCode,
+    discountAmount: bookingData.discountAmount,
     pdfAttachment: pdfBuffer,
   }).catch((emailErr) => console.error("Email dispatch warning:", emailErr));
 

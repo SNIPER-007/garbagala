@@ -6,7 +6,7 @@ import { buildPayUCheckoutFields, getPayUPaymentUrl } from "@/lib/payu";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { purchaserName, purchaserEmail, purchaserPhone, quantity = 1, customerId } = body;
+    const { purchaserName, purchaserEmail, purchaserPhone, quantity = 1, customerId, couponCode } = body;
 
     if (!purchaserName || !purchaserEmail || !purchaserPhone) {
       return NextResponse.json(
@@ -50,12 +50,27 @@ export async function POST(request: Request) {
     }
 
     const subtotal = price * qty;
-    const totalAmount = subtotal;
+
+    // Server-side Coupon Code Validation
+    const normalizedCoupon = (couponCode || "").trim().toUpperCase();
+    let discountPercent = 0;
+    let discountAmount = 0;
+    let appliedCouponCode: string | null = null;
+
+    if (normalizedCoupon === "NATYAMGARBA5") {
+      appliedCouponCode = "NATYAMGARBA5";
+      discountPercent = 5;
+      discountAmount = Number((subtotal * 0.05).toFixed(2));
+    }
+
+    const totalAmount = Number((subtotal - discountAmount).toFixed(2));
+
     const bookingSeedRef = adminDb.collection("bookings").doc();
     const bookingId = `GG26-${bookingSeedRef.id.substring(0, 6).toUpperCase()}`;
     const bookingRef = adminDb.collection("bookings").doc(bookingId);
     const payuTxnId = `GG26${Date.now()}${bookingSeedRef.id.substring(0, 6)}`;
     const now = new Date().toISOString();
+
     const checkoutFields = buildPayUCheckoutFields({
       request,
       txnid: payuTxnId,
@@ -76,6 +91,9 @@ export async function POST(request: Request) {
       ticketType: "General Sale",
       quantity: qty,
       subtotal,
+      discountAmount,
+      discountPercent,
+      couponCode: appliedCouponCode,
       totalAmount,
       currency: "INR",
       paymentStatus: "pending",

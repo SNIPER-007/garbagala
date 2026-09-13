@@ -11,6 +11,8 @@ interface TicketEmailPayload {
   ticketNumbers: string[];
   quantity: number;
   totalAmount: number;
+  couponCode?: string;
+  discountAmount?: number;
   pdfAttachment?: Buffer;
 }
 
@@ -72,10 +74,16 @@ export async function sendTicketEmail(payload: TicketEmailPayload) {
                 <div class="info-label">Venue</div>
                 <div class="info-val">${EVENT_DETAILS.venue}, ${EVENT_DETAILS.venueAddress}</div>
               </div>
-              <div>
+              <div style="margin-bottom: 12px;">
                 <div class="info-label">Booking Reference</div>
                 <div class="info-val" style="color: #FF9F1C;">${payload.bookingId}</div>
               </div>
+              ${payload.couponCode ? `
+              <div style="margin-bottom: 12px;">
+                <div class="info-label">Coupon Applied</div>
+                <div class="info-val" style="color: #10B981;">${payload.couponCode} (5% Off - Saved ₹${payload.discountAmount})</div>
+              </div>
+              ` : ""}
             </div>
 
             <h3 style="color: #F7B731; margin-top: 24px; margin-bottom: 12px;">Your Issued Passes (${payload.quantity}):</h3>
