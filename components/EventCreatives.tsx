@@ -31,7 +31,7 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     category: "Artist Roster",
     tag: "LIVE ARTIST LINEUP",
     description: "Featuring Divya Joshi Ganatra, Jigar Dama, Nisha Soni, Chetan Deshmukh & Bharat Kotak Band.",
-    imageSrc: "/creatives/artist-roster.jpg",
+    imageSrc: "/creatives/artist-roster.jpeg",
     gradientBg: "from-[#581C87] via-[#C026D3] to-[#831843]",
     icon: Music,
   },

@@ -259,22 +259,33 @@ export default function HomePage() {
           {EVENT_DETAILS.artists.map((artist, idx) => (
             <div
               key={idx}
-              className="card-glass rounded-2xl p-6 border border-[#272435] hover:border-[#F7B731]/40 transition-all group"
+              className="card-glass rounded-2xl p-6 border border-[#272435] hover:border-[#F7B731]/40 transition-all group flex flex-col justify-between"
             >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E03616] via-[#FF9F1C] to-[#F7B731] p-0.5 mb-4 group-hover:scale-110 transition-transform">
-                <div className="w-full h-full bg-[#0A090D] rounded-[14px] flex items-center justify-center">
-                  <Music className="w-6 h-6 text-[#F7B731]" />
+              <div>
+                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#E03616] via-[#FF9F1C] to-[#F7B731] p-0.5 mb-4 group-hover:scale-105 transition-transform overflow-hidden shadow-xl">
+                  <div className="w-full h-full bg-[#0A090D] rounded-[14px] overflow-hidden flex items-center justify-center relative">
+                    <img
+                      src={artist.image}
+                      alt={artist.name}
+                      onError={(e) => {
+                        // Fallback if image fails
+                        (e.target as HTMLElement).style.display = "none";
+                      }}
+                      className="w-full h-full object-cover"
+                    />
+                    <Music className="w-8 h-8 text-[#F7B731] absolute pointer-events-none -z-0" />
+                  </div>
                 </div>
+                <h3 className="text-xl font-extrabold text-white font-heading">
+                  {artist.name}
+                </h3>
+                <p className="text-xs font-semibold text-[#FF9F1C] mt-1 uppercase tracking-wider">
+                  {artist.role}
+                </p>
+                <p className="text-xs text-[#8E8A9F] mt-3">
+                  Performing live at Garba Gala 2026.
+                </p>
               </div>
-              <h3 className="text-xl font-extrabold text-white font-heading">
-                {artist.name}
-              </h3>
-              <p className="text-xs font-semibold text-[#FF9F1C] mt-1 uppercase tracking-wider">
-                {artist.role}
-              </p>
-              <p className="text-xs text-[#8E8A9F] mt-3">
-                Bringing folk vocals, percussion beats, and high-energy Garba rhythms.
-              </p>
             </div>
           ))}
         </div>

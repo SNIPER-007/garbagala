@@ -11,11 +11,11 @@ export const EVENT_DETAILS = {
   idRequired: false,
   description: "Experience Mumbai's most magnificent and energetic traditional Dandiya & Garba celebration! Featuring legendary live performers, mesmerizing lights, authentic food stalls, and an unparalleled festive atmosphere.",
   artists: [
-    { name: "Divya Joshi Ganatra", role: "Lead Singer", image: "/artists/divya-joshi.jpg" },
+    { name: "Divya Joshi Ganatra", role: "Lead Singer", image: "/artists/divya-joshi.JPG" },
     { name: "Jigar Dama", role: "Co Singer", image: "/artists/jigar-dama.jpeg" },
-    { name: "Nisha Soni", role: "Co Singer", image: "/artists/nisha-soni.jpeg" },
-    { name: "Chetan Deshmukh", role: "Co Singer", image: "/artists/chetan-deshmukh.jpeg" },
-    { name: "Bharat Kotak & Band", role: "Percussionist & Live Orchestra", image: "/artists/bharat-kotak.jpeg" },
+    { name: "Nisha Soni", role: "Singer", image: "/artists/nisha-soni.jpeg" },
+    { name: "Chetan Deshmukh", role: "Singer / Musician", image: "/artists/chetan-deshmukh.jpeg" },
+    { name: "Bharat Kotak & Band", role: "Percussionist", image: "/artists/bharat-kotak.jpeg" },
   ],
   organisers: [
     "Rotaract Club of Mumbai Ghatkopar",
