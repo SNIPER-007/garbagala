@@ -22,14 +22,14 @@ export async function POST(request: Request) {
     const ticketTypeSnap = await ticketTypeRef.get();
 
     let price = 450;
-    let totalQuantity = 150;
+    let totalQuantity = 500;
     let soldQuantity = 0;
     let status = "active";
 
     if (ticketTypeSnap.exists) {
       const data = ticketTypeSnap.data()!;
       price = data.price ?? 450;
-      totalQuantity = data.totalQuantity ?? 150;
+      totalQuantity = data.totalQuantity ?? 500;
       soldQuantity = data.soldQuantity ?? 0;
       status = data.status ?? "active";
     }

@@ -60,7 +60,7 @@ export async function fulfillPaidBooking(input: {
     const ticketTypeRef = adminDb.collection("ticketTypes").doc("general-sale");
     const ticketTypeSnap = await transaction.get(ticketTypeRef);
     const currentSold = ticketTypeSnap.exists ? ticketTypeSnap.data()?.soldQuantity || 0 : 0;
-    const totalQuantity = ticketTypeSnap.exists ? ticketTypeSnap.data()?.totalQuantity || 150 : 150;
+    const totalQuantity = ticketTypeSnap.exists ? ticketTypeSnap.data()?.totalQuantity || 500 : 500;
     const qtyNeeded = freshBooking.quantity || 1;
 
     if (currentSold + qtyNeeded > totalQuantity) {

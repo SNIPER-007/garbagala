@@ -15,7 +15,7 @@ export default function OrganizerDashboardPage() {
 
   const [stats, setStats] = useState({
     ticketsSold: 0,
-    totalQuantity: 150,
+    totalQuantity: 500,
     checkedInCount: 0,
     remainingToArrive: 0,
   });
@@ -46,7 +46,7 @@ export default function OrganizerDashboardPage() {
 
       setStats({
         ticketsSold: sold,
-        totalQuantity: 150,
+        totalQuantity: 500,
         checkedInCount: checkedIn,
         remainingToArrive: Math.max(0, sold - checkedIn),
       });

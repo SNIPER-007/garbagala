@@ -8,7 +8,6 @@ import {
   MapPin,
   Ticket,
   Sparkles,
-  Music,
   Users,
   ShieldAlert,
   ChevronDown,
@@ -273,7 +272,6 @@ export default function HomePage() {
                       }}
                       className="w-full h-full object-cover"
                     />
-                    <Music className="w-8 h-8 text-[#F7B731] absolute pointer-events-none -z-0" />
                   </div>
                 </div>
                 <h3 className="text-xl font-extrabold text-white font-heading">
@@ -512,7 +510,7 @@ export default function HomePage() {
               Secure Your Pass For Garba Gala 2026
             </h2>
             <p className="text-base text-[#B5B1C5]">
-              General Sale passes are limited to 150 passes. Book your entry pass now for ₹450!
+              Book your entry pass now for ₹450!
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link

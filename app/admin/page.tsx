@@ -130,8 +130,8 @@ export default function AdminDashboardPage() {
               <span className="text-[10px] uppercase font-extrabold tracking-wider">TICKETS SOLD</span>
               <Ticket className="w-5 h-5" />
             </div>
-            <p className="text-3xl font-extrabold text-white font-heading">{totalSold} / 150</p>
-            <p className="text-[11px] text-[#8E8A9F]">{150 - totalSold} Remaining Stock</p>
+            <p className="text-3xl font-extrabold text-white font-heading">{totalSold} / 500</p>
+            <p className="text-[11px] text-[#8E8A9F]">{500 - totalSold} Remaining Stock</p>
           </div>
 
           <div className="card-glass rounded-2xl p-5 border border-[#10B981]/40 bg-[#10B981]/5 space-y-2">
