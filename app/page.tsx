@@ -68,7 +68,7 @@ export default function HomePage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF9F1C] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F7B731]"></span>
             </span>
-            GENERAL SALE LIVE NOW • ₹450 PASS (150 TOTAL)
+            GENERAL SALE LIVE NOW • ₹450 PASS
           </div>
 
           {/* Main Editorial Title */}
@@ -141,14 +141,6 @@ export default function HomePage() {
               <Sparkles className="w-4 h-4 text-[#F7B731]" />
               View Pass Details & Terms
             </Link>
-          </div>
-
-          {/* Inventory Progress Pill */}
-          <div className="pt-2 flex items-center justify-center gap-2 text-xs text-[#B5B1C5]">
-            <Flame className="w-4 h-4 text-[#E03616] animate-bounce" />
-            <span>
-              <strong>{remainingQuantity} passes remaining</strong> out of {ticketType.totalQuantity} total General Sale passes
-            </span>
           </div>
         </div>
       </section>

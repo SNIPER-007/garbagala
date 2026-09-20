@@ -188,7 +188,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
               <p className="text-[11px] text-[#8E8A9F]">
-                Maximum 10 passes per purchaser. All tickets will be issued under purchaser name with unique QR codes.
+                All tickets will be issued under purchaser name with unique QR codes.
               </p>
             </div>
 

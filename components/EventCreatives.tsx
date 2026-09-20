@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Sparkles, Image as ImageIcon, Calendar, Music, MapPin, Award, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Sparkles, Image as ImageIcon, Calendar, Music, MapPin, Award, X } from "lucide-react";
 
 export type EventCreative = {
   id: string;
@@ -21,6 +21,7 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     category: "Official Poster",
     tag: "GRAND FESTIVAL POSTER",
     description: "Official promotional poster for Garba Gala 2026 featuring live band lineup & ticket pass details.",
+    imageSrc: "/creatives/poster-main.jpg",
     gradientBg: "from-[#991B1B] via-[#D97706] to-[#7C2D12]",
     icon: Sparkles,
   },
@@ -29,7 +30,8 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     title: "Star Vocalists & Live Orchestra",
     category: "Artist Roster",
     tag: "LIVE ARTIST LINEUP",
-    description: "Featuring Nisha Soni, Jiger Dama, Divya Joshi Ganatra, Chetan Deshmukh & Bharat Kotak Band.",
+    description: "Featuring Divya Joshi Ganatra, Jigar Dama, Nisha Soni, Chetan Deshmukh & Bharat Kotak Band.",
+    imageSrc: "/creatives/artist-roster.jpg",
     gradientBg: "from-[#581C87] via-[#C026D3] to-[#831843]",
     icon: Music,
   },
@@ -39,6 +41,7 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     category: "Venue & Date",
     tag: "EVENT DATE & VENUE",
     description: "27 September 2026 • 5:30 PM Onwards at Golden Celebration Hall, Mulund West, Mumbai.",
+    imageSrc: "/creatives/venue-poster.jpg",
     gradientBg: "from-[#1E3A8A] via-[#0284C7] to-[#0F766E]",
     icon: MapPin,
   },
@@ -47,7 +50,8 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     title: "General Sale Pass — ₹450 Only",
     category: "Pass Alert",
     tag: "OFFICIAL PASS BOOKING",
-    description: "Limited stock of 150 passes. Includes entry to main Garba dance floor & live music performances.",
+    description: "Includes entry to main Garba dance floor & live music performances.",
+    imageSrc: "/creatives/ticket-alert.jpg",
     gradientBg: "from-[#78350F] via-[#D97706] to-[#B45309]",
     icon: Calendar,
   },
@@ -56,7 +60,8 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     title: "Rotaract Clubs & Event Team",
     category: "Organisers",
     tag: "PRESENTING ORGANISERS",
-    description: "Presented by RC Mumbai Ghatkopar, RC Mumbai Salt City, RC Mumbai Medico Marvel, Nisha Soni & Dipti Vora.",
+    description: "Presented by RC Mumbai Ghatkopar, RC Mumbai Salt City, RC Mumbai Medico Marvel, Natyam Garba by Pooja Dedhia & Nisha Soni.",
+    imageSrc: "/creatives/organisers-promo.jpg",
     gradientBg: "from-[#065F46] via-[#059669] to-[#047857]",
     icon: Award,
   },
@@ -65,8 +70,13 @@ const DEFAULT_CREATIVES: EventCreative[] = [
 export default function EventCreatives() {
   const [selectedCreative, setSelectedCreative] = useState<EventCreative | null>(null);
   const [activeTab, setActiveTab] = useState<string>("All");
+  const [imageErrorMap, setImageErrorMap] = useState<Record<string, boolean>>({});
 
   const categories = ["All", "Official Poster", "Artist Roster", "Venue & Date", "Pass Alert", "Organisers"];
+
+  const handleImageError = (id: string) => {
+    setImageErrorMap((prev) => ({ ...prev, [id]: true }));
+  };
 
   const filteredCreatives = activeTab === "All"
     ? DEFAULT_CREATIVES
@@ -108,42 +118,51 @@ export default function EventCreatives() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCreatives.map((item) => {
           const Icon = item.icon;
+          const hasImgError = imageErrorMap[item.id] || !item.imageSrc;
+
           return (
             <div
               key={item.id}
               onClick={() => setSelectedCreative(item)}
               className="card-glass rounded-2xl border border-[#272435] hover:border-[#F7B731]/50 overflow-hidden cursor-pointer group transition-all duration-300 hover:-translate-y-1 shadow-xl"
             >
-              {/* Creative Graphic Placeholder / Container */}
-              <div className={`relative h-56 bg-gradient-to-br ${item.gradientBg} p-6 flex flex-col justify-between overflow-hidden`}>
-                {/* Background Pattern Overlay */}
-                <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
-                
-                {/* Top Badge */}
-                <div className="flex items-center justify-between z-10">
-                  <span className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[10px] font-extrabold text-white uppercase tracking-wider">
-                    {item.tag}
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
-                    <Icon className="w-4 h-4" />
-                  </div>
-                </div>
+              {/* Creative Graphic Display */}
+              <div className={`relative h-60 bg-gradient-to-br ${item.gradientBg} flex flex-col justify-between overflow-hidden`}>
+                {!hasImgError ? (
+                  <img
+                    src={item.imageSrc}
+                    alt={item.title}
+                    onError={() => handleImageError(item.id)}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="p-6 h-full flex flex-col justify-between relative">
+                    <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
+                    
+                    <div className="flex items-center justify-between z-10">
+                      <span className="px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[10px] font-extrabold text-white uppercase tracking-wider">
+                        {item.tag}
+                      </span>
+                      <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                    </div>
 
-                {/* Graphics Preview Graphic Elements */}
-                <div className="my-auto text-center z-10 space-y-1">
-                  <div className="text-2xl font-black text-white tracking-wider uppercase font-heading drop-shadow-md">
-                    GARBA GALA 2026
-                  </div>
-                  <div className="text-xs font-semibold text-amber-200 uppercase tracking-widest">
-                    {item.title}
-                  </div>
-                </div>
+                    <div className="my-auto text-center z-10 space-y-1">
+                      <div className="text-2xl font-black text-white tracking-wider uppercase font-heading drop-shadow-md">
+                        GARBA GALA 2026
+                      </div>
+                      <div className="text-xs font-semibold text-amber-200 uppercase tracking-widest">
+                        {item.title}
+                      </div>
+                    </div>
 
-                {/* Bottom Footer Overlay */}
-                <div className="z-10 flex items-center justify-between text-[11px] text-white/80 font-medium border-t border-white/10 pt-2">
-                  <span>27 SEPT 2026 • MULUND</span>
-                  <span className="text-amber-300 font-bold group-hover:underline">Click to view →</span>
-                </div>
+                    <div className="z-10 flex items-center justify-between text-[11px] text-white/80 font-medium border-t border-white/10 pt-2">
+                      <span>27 SEPT 2026 • MULUND</span>
+                      <span className="text-amber-300 font-bold group-hover:underline">Click to view →</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Card Meta Content */}
@@ -166,28 +185,39 @@ export default function EventCreatives() {
           <div className="bg-[#14121B] border-2 border-[#F7B731]/60 rounded-3xl max-w-2xl w-full p-6 space-y-6 relative shadow-2xl animate-in fade-in zoom-in duration-200">
             <button
               onClick={() => setSelectedCreative(null)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-[#0A090D] border border-[#272435] text-[#B5B1C5] hover:text-white"
+              className="absolute top-4 right-4 z-20 p-2 rounded-full bg-[#0A090D] border border-[#272435] text-[#B5B1C5] hover:text-white"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className={`h-72 rounded-2xl bg-gradient-to-br ${selectedCreative.gradientBg} p-8 flex flex-col justify-between relative overflow-hidden`}>
-              <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15" />
-              <div className="z-10 flex items-center justify-between">
-                <span className="px-3 py-1 rounded-full bg-black/50 text-xs font-bold text-amber-300 uppercase">
-                  {selectedCreative.tag}
-                </span>
-                <span className="text-xs font-semibold text-white/90">Official Creative #GG26</span>
-              </div>
-              <div className="z-10 text-center space-y-2">
-                <h3 className="text-3xl font-extrabold text-white font-heading uppercase tracking-tight drop-shadow-lg">
-                  {selectedCreative.title}
-                </h3>
-                <p className="text-xs text-amber-200 font-medium">Garba Gala 2026 • Golden Celebration Hall, Mulund West</p>
-              </div>
-              <div className="z-10 text-center text-xs text-white/80 font-bold border-t border-white/20 pt-2">
-                27 SEPTEMBER 2026 • 5:30 PM ONWARDS • PASS: ₹450
-              </div>
+            <div className={`h-80 rounded-2xl bg-gradient-to-br ${selectedCreative.gradientBg} flex items-center justify-center relative overflow-hidden`}>
+              {!imageErrorMap[selectedCreative.id] && selectedCreative.imageSrc ? (
+                <img
+                  src={selectedCreative.imageSrc}
+                  alt={selectedCreative.title}
+                  onError={() => handleImageError(selectedCreative.id)}
+                  className="w-full h-full object-contain bg-black/40"
+                />
+              ) : (
+                <div className="p-8 h-full w-full flex flex-col justify-between relative">
+                  <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15" />
+                  <div className="z-10 flex items-center justify-between">
+                    <span className="px-3 py-1 rounded-full bg-black/50 text-xs font-bold text-amber-300 uppercase">
+                      {selectedCreative.tag}
+                    </span>
+                    <span className="text-xs font-semibold text-white/90">Official Creative #GG26</span>
+                  </div>
+                  <div className="z-10 text-center space-y-2">
+                    <h3 className="text-3xl font-extrabold text-white font-heading uppercase tracking-tight drop-shadow-lg">
+                      {selectedCreative.title}
+                    </h3>
+                    <p className="text-xs text-amber-200 font-medium">Garba Gala 2026 • Golden Celebration Hall, Mulund West</p>
+                  </div>
+                  <div className="z-10 text-center text-xs text-white/80 font-bold border-t border-white/20 pt-2">
+                    27 SEPTEMBER 2026 • 5:30 PM ONWARDS • PASS: ₹450
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-3">

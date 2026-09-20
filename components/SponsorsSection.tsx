@@ -1,102 +1,131 @@
-import React from "react";
-import { ShieldCheck, Award, Star, Heart, Flame, Sparkles } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { Star, Award, Sparkles, Heart } from "lucide-react";
 
 export type SponsorSlot = {
   id: string;
-  category: "Title Sponsor" | "Co-Sponsor" | "Associate Partner" | "Beverage Partner" | "Media Partner" | "Ticketing Partner";
+  category: "Title Sponsor" | "Strategic Event Partner" | "Powered By" | "Media Partner";
   title: string;
-  subtitle: string;
+  subtitle?: string;
+  logoSrc: string;
   icon: React.ElementType;
   accentColor: string;
+  bgGradient: string;
 };
 
 const SPONSORS: SponsorSlot[] = [
   {
-    id: "sp-1",
+    id: "title-sponsor",
     category: "Title Sponsor",
-    title: "Official Title Sponsor",
-    subtitle: "Garba Gala 2026 Season Partner",
+    title: "Green Space IPC Real Estate Advisory",
+    subtitle: "Official Title Sponsor",
+    logoSrc: "/sponsors/green-space.png",
     icon: Star,
     accentColor: "border-[#F7B731] text-[#F7B731]",
+    bgGradient: "from-[#F7B731]/20 via-[#FF9F1C]/10 to-transparent",
   },
   {
-    id: "sp-2",
-    category: "Co-Sponsor",
-    title: "Co-Presenting Partner",
-    subtitle: "Festive Celebration Sponsor",
+    id: "strategic-partner",
+    category: "Strategic Event Partner",
+    title: "Natyam Garba by Pooja Dedhia",
+    subtitle: "Strategic Event Partner",
+    logoSrc: "/sponsors/natyam-garba.png",
     icon: Award,
     accentColor: "border-[#FF9F1C] text-[#FF9F1C]",
+    bgGradient: "from-[#FF9F1C]/20 via-[#E03616]/10 to-transparent",
   },
   {
-    id: "sp-3",
-    category: "Associate Partner",
-    title: "Associate Partner",
-    subtitle: "Venue & Hospitality Partner",
+    id: "powered-by",
+    category: "Powered By",
+    title: "Zen Scientific Pvt Ltd",
+    subtitle: "By Dhaval Thakkar",
+    logoSrc: "/sponsors/zen-scientific.png",
     icon: Sparkles,
-    accentColor: "border-[#E03616] text-[#E03616]",
-  },
-  {
-    id: "sp-4",
-    category: "Beverage Partner",
-    title: "Refreshment Partner",
-    subtitle: "Official Food & Beverage Partner",
-    icon: Flame,
     accentColor: "border-[#10B981] text-[#10B981]",
+    bgGradient: "from-[#10B981]/20 via-[#059669]/10 to-transparent",
   },
   {
-    id: "sp-5",
+    id: "media-partner",
     category: "Media Partner",
-    title: "Official Media Partner",
-    subtitle: "Digital & Broadcast Partner",
+    title: "GurjarBhoomi",
+    subtitle: "Official Media Partner",
+    logoSrc: "/sponsors/gurjar-bhoomi.png",
     icon: Heart,
     accentColor: "border-[#3B82F6] text-[#3B82F6]",
-  },
-  {
-    id: "sp-6",
-    category: "Ticketing Partner",
-    title: "Official Ticketing Partner",
-    subtitle: "Powered by Garba Gala Passes",
-    icon: ShieldCheck,
-    accentColor: "border-[#8B5CF6] text-[#8B5CF6]",
+    bgGradient: "from-[#3B82F6]/20 via-[#2563EB]/10 to-transparent",
   },
 ];
 
 export default function SponsorsSection() {
+  const [imageErrorMap, setImageErrorMap] = useState<Record<string, boolean>>({});
+
+  const handleImageError = (id: string) => {
+    setImageErrorMap((prev) => ({ ...prev, [id]: true }));
+  };
+
   return (
     <section id="sponsors" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#272435]">
       <div className="text-center max-w-2xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF9F1C]/10 border border-[#FF9F1C]/30 text-[#F7B731] text-xs font-semibold uppercase tracking-wider mb-3 shadow-[0_0_15px_rgba(255,159,28,0.2)]">
-          OUR PARTNERS
+          OUR SPONSORS & PARTNERS
         </div>
         <h2 className="text-3xl sm:text-5xl font-extrabold font-heading text-white">
-          Sponsors & Partners
+          Presented In Association With
         </h2>
         <p className="text-sm text-[#8E8A9F] mt-2">
-          Garba Gala 2026 is proudly supported by our event partners and youth organisations.
+          Garba Gala 2026 is proudly supported by our esteemed partners and sponsors.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {SPONSORS.map((sponsor) => {
           const Icon = sponsor.icon;
+          const hasImageError = imageErrorMap[sponsor.id];
+
           return (
             <div
               key={sponsor.id}
-              className="card-glass rounded-2xl p-6 border border-[#272435] hover:border-[#F7B731]/40 transition-all flex flex-col items-center justify-center text-center group"
+              className="card-glass rounded-2xl p-6 border border-[#272435] hover:border-[#F7B731]/40 transition-all flex flex-col items-center justify-between text-center group relative overflow-hidden shadow-xl"
             >
-              {/* Logo Emblem Container */}
-              <div className={`w-16 h-16 rounded-2xl bg-[#0A090D] border-2 ${sponsor.accentColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                <Icon className="w-7 h-7" />
+              {/* Category Header */}
+              <div className="w-full pb-3 border-b border-[#272435]/60 mb-4 flex items-center justify-center gap-1.5">
+                <Icon className={`w-3.5 h-3.5 ${sponsor.accentColor.split(" ")[1]}`} />
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#8E8A9F]">
+                  {sponsor.category}
+                </span>
               </div>
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#8E8A9F] mb-1">
-                {sponsor.category}
-              </span>
-              <h3 className="text-base font-extrabold text-white font-heading group-hover:text-[#F7B731] transition-colors">
-                {sponsor.title}
-              </h3>
-              <p className="text-xs text-[#B5B1C5] mt-1">
-                {sponsor.subtitle}
-              </p>
+
+              {/* Logo / Image Container */}
+              <div className="w-full h-24 flex items-center justify-center p-2 rounded-xl bg-[#0A090D]/80 border border-[#272435] my-2 group-hover:scale-105 transition-transform">
+                {!hasImageError ? (
+                  <img
+                    src={sponsor.logoSrc}
+                    alt={sponsor.title}
+                    onError={() => handleImageError(sponsor.id)}
+                    className="max-h-full max-w-full object-contain filter drop-shadow-md"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center space-y-1">
+                    <Icon className={`w-6 h-6 ${sponsor.accentColor.split(" ")[1]}`} />
+                    <span className="text-xs font-extrabold text-white font-heading">
+                      {sponsor.title.split(" ")[0]}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Text Info */}
+              <div className="pt-3 space-y-1 w-full">
+                <h3 className="text-sm font-extrabold text-white font-heading group-hover:text-[#F7B731] transition-colors line-clamp-2">
+                  {sponsor.title}
+                </h3>
+                {sponsor.subtitle && (
+                  <p className="text-[11px] font-semibold text-[#8E8A9F]">
+                    {sponsor.subtitle}
+                  </p>
+                )}
+              </div>
             </div>
           );
         })}

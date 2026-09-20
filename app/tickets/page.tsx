@@ -89,7 +89,7 @@ export default function TicketsPage() {
               <div className="text-4xl font-black text-[#F7B731] font-heading">
                 ₹450 <span className="text-sm font-semibold text-[#8E8A9F]">/ PASS</span>
               </div>
-              <p className="text-xs text-[#8E8A9F] mt-0.5">Total Quantity: 150 Passes</p>
+              <p className="text-xs text-[#10B981] font-bold mt-0.5">● General Sale Open</p>
             </div>
           </div>
 
@@ -126,15 +126,15 @@ export default function TicketsPage() {
             </div>
           </div>
 
-          {/* Stock & Main CTA */}
+          {/* Main CTA */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-6 bg-[#14121B] p-6 rounded-2xl border border-[#272435]">
             <div className="space-y-1 text-center sm:text-left">
-              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs font-bold text-[#FF9F1C]">
-                <Flame className="w-4 h-4 text-[#E03616] animate-bounce" />
-                <span>Pass Availability: {remaining} passes remaining ({ticketType.soldQuantity} / {ticketType.totalQuantity} sold)</span>
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-xs font-bold text-[#F7B731]">
+                <Sparkles className="w-4 h-4 text-[#F7B731]" />
+                <span>Instant Digital Entry Pass • Direct Delivery to Email</span>
               </div>
               <p className="text-xs text-[#8E8A9F]">
-                Multiple passes can be purchased in one booking. Issued under purchaser name.
+                Multiple passes can be purchased in one booking under the purchaser's name.
               </p>
             </div>
 
@@ -152,7 +152,7 @@ export default function TicketsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-[#272435]">
             {/* What You Get */}
             <div className="space-y-4">
-              <h3 className="text-xl font-extrabold text-white font-heading flex items-center gap-2">
+              <h3 className="text-lg font-extrabold text-white font-heading flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-[#F7B731]" />
                 WHAT YOU GET
               </h3>
@@ -163,11 +163,11 @@ export default function TicketsPage() {
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#F7B731] shrink-0 mt-0.5" />
-                  <span>Full access to the air-conditioned main Dandiya & Garba dance floor.</span>
+                  <span>Full access to main Dandiya & Garba dance floor & food court.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#F7B731] shrink-0 mt-0.5" />
-                  <span>Live performances by <strong>Nisha Soni, Jiger Dama, Divya Joshi Ganatra, Chetan Deshmukh & Bharat Kotak Band</strong>.</span>
+                  <span>Live performances by <strong>Divya Joshi Ganatra, Jigar Dama, Nisha Soni, Chetan Deshmukh & Bharat Kotak Band</strong>.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#F7B731] shrink-0 mt-0.5" />
@@ -176,34 +176,18 @@ export default function TicketsPage() {
               </ul>
             </div>
 
-            {/* Pass Information & Guidelines */}
+            {/* Pass Information & Guidelines (Minimized & Clean) */}
             <div className="space-y-4">
-              <h3 className="text-xl font-extrabold text-white font-heading flex items-center gap-2">
+              <h3 className="text-lg font-extrabold text-white font-heading flex items-center gap-2">
                 <Info className="w-5 h-5 text-[#FF9F1C]" />
-                PASS INFORMATION & TERMS
+                PASS GUIDELINES
               </h3>
-              <ul className="space-y-2.5 text-xs text-[#B5B1C5]">
-                <li className="flex items-start gap-2.5">
-                  <span className="text-[#F7B731] font-bold">•</span>
-                  <span><strong>Price:</strong> ₹450 per pass (150 passes total).</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-[#F7B731] font-bold">•</span>
-                  <span><strong>Age Limit:</strong> Minimum age requirement is 10+ years.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-[#F7B731] font-bold">•</span>
-                  <span><strong>Government ID:</strong> Physical ID is not required at entry.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-[#F7B731] font-bold">•</span>
-                  <span><strong>Multiple Purchases:</strong> Permitted. All passes within a booking are issued under the purchaser's name.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="text-[#E03616] font-bold">•</span>
-                  <span><strong>Refund Policy:</strong> Passes are strictly <strong>non-refundable & non-transferable</strong>.</span>
-                </li>
-              </ul>
+              <div className="p-4 rounded-xl bg-[#0A090D] border border-[#272435] text-xs text-[#8E8A9F] space-y-2">
+                <p>• <strong>Price:</strong> ₹450 per pass</p>
+                <p>• <strong>Age Limit:</strong> 10+ years required for entry</p>
+                <p>• <strong>ID Policy:</strong> Physical ID not required; digital QR pass scanned at gate</p>
+                <p className="text-[#E03616] font-semibold">• <strong>Policy:</strong> Strictly non-refundable and non-transferable</p>
+              </div>
             </div>
           </div>
 
