@@ -12,10 +12,10 @@ export const EVENT_DETAILS = {
   description: "Experience Mumbai's most magnificent and energetic traditional Dandiya & Garba celebration! Featuring legendary live performers, mesmerizing lights, authentic food stalls, and an unparalleled festive atmosphere.",
   artists: [
     { name: "Divya Joshi Ganatra", role: "Lead Singer", image: "/artists/divya-joshi.jpg" },
-    { name: "Jigar Dama", role: "Co Singer", image: "/artists/jigar-dama.jpg" },
-    { name: "Nisha Soni", role: "Singer / Performer", image: "/artists/nisha-soni.jpg" },
-    { name: "Chetan Deshmukh", role: "Musician & Rhythm Specialist", image: "/artists/chetan-deshmukh.jpg" },
-    { name: "Bharat Kotak & Band", role: "Percussionist & Live Orchestra", image: "/artists/bharat-kotak.jpg" },
+    { name: "Jigar Dama", role: "Co Singer", image: "/artists/jigar-dama.jpeg" },
+    { name: "Nisha Soni", role: "Co Singer", image: "/artists/nisha-soni.jpeg" },
+    { name: "Chetan Deshmukh", role: "Co Singer", image: "/artists/chetan-deshmukh.jpeg" },
+    { name: "Bharat Kotak & Band", role: "Percussionist & Live Orchestra", image: "/artists/bharat-kotak.jpeg" },
   ],
   organisers: [
     "Rotaract Club of Mumbai Ghatkopar",
@@ -23,6 +23,7 @@ export const EVENT_DETAILS = {
     "Rotaract Club of Mumbai Medico Marvel",
     "Natyam Garba by Pooja Dedhia",
     "Nisha Soni",
+    "Romil Bharat Lodaya",
   ],
   faqs: [
     {

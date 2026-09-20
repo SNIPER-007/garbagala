@@ -6,7 +6,7 @@ import { Sparkles, Image as ImageIcon, Calendar, Music, MapPin, Award, X } from 
 export type EventCreative = {
   id: string;
   title: string;
-  category: "Official Poster" | "Artist Roster" | "Venue & Date" | "Pass Alert" | "Organisers";
+  category: "Official Poster" | "Artist Roster";
   tag: string;
   description: string;
   imageSrc?: string;
@@ -21,7 +21,7 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     category: "Official Poster",
     tag: "GRAND FESTIVAL POSTER",
     description: "Official promotional poster for Garba Gala 2026 featuring live band lineup & ticket pass details.",
-    imageSrc: "/creatives/poster-main.jpg",
+    imageSrc: "/creatives/gg.jpeg",
     gradientBg: "from-[#991B1B] via-[#D97706] to-[#7C2D12]",
     icon: Sparkles,
   },
@@ -34,36 +34,6 @@ const DEFAULT_CREATIVES: EventCreative[] = [
     imageSrc: "/creatives/artist-roster.jpg",
     gradientBg: "from-[#581C87] via-[#C026D3] to-[#831843]",
     icon: Music,
-  },
-  {
-    id: "venue-poster",
-    title: "Golden Celebration Hall • Mulund",
-    category: "Venue & Date",
-    tag: "EVENT DATE & VENUE",
-    description: "27 September 2026 • 5:30 PM Onwards at Golden Celebration Hall, Mulund West, Mumbai.",
-    imageSrc: "/creatives/venue-poster.jpg",
-    gradientBg: "from-[#1E3A8A] via-[#0284C7] to-[#0F766E]",
-    icon: MapPin,
-  },
-  {
-    id: "ticket-alert",
-    title: "General Sale Pass — ₹450 Only",
-    category: "Pass Alert",
-    tag: "OFFICIAL PASS BOOKING",
-    description: "Includes entry to main Garba dance floor & live music performances.",
-    imageSrc: "/creatives/ticket-alert.jpg",
-    gradientBg: "from-[#78350F] via-[#D97706] to-[#B45309]",
-    icon: Calendar,
-  },
-  {
-    id: "organisers-promo",
-    title: "Rotaract Clubs & Event Team",
-    category: "Organisers",
-    tag: "PRESENTING ORGANISERS",
-    description: "Presented by RC Mumbai Ghatkopar, RC Mumbai Salt City, RC Mumbai Medico Marvel, Natyam Garba by Pooja Dedhia & Nisha Soni.",
-    imageSrc: "/creatives/organisers-promo.jpg",
-    gradientBg: "from-[#065F46] via-[#059669] to-[#047857]",
-    icon: Award,
   },
 ];
 
