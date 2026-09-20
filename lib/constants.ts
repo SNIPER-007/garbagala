@@ -27,14 +27,6 @@ export const EVENT_DETAILS = {
   ],
   faqs: [
     {
-      q: "What is the minimum age requirement?",
-      a: "The minimum age requirement for entry is 10 years and above. Children below 10 years are not permitted entry."
-    },
-    {
-      q: "Is government ID required at entry?",
-      a: "No physical ID card is strictly required at entry, but you must present your valid digital pass with QR code."
-    },
-    {
       q: "Are tickets refundable or transferable?",
       a: "No. All tickets are strictly non-refundable and non-transferable under any circumstances."
     },

@@ -26,16 +26,6 @@ const SPONSORS: SponsorSlot[] = [
     bgGradient: "from-[#F7B731]/20 via-[#FF9F1C]/10 to-transparent",
   },
   {
-    id: "strategic-partner",
-    category: "Strategic Event Partner",
-    title: "Natyam Garba by Pooja Dedhia",
-    subtitle: "Strategic Event Partner",
-    logoSrc: "/sponsors/strategic-event.jpg",
-    icon: Award,
-    accentColor: "border-[#FF9F1C] text-[#FF9F1C]",
-    bgGradient: "from-[#FF9F1C]/20 via-[#E03616]/10 to-transparent",
-  },
-  {
     id: "powered-by",
     category: "Powered By",
     title: "Zen Scientific Pvt Ltd",
@@ -44,6 +34,16 @@ const SPONSORS: SponsorSlot[] = [
     icon: Sparkles,
     accentColor: "border-[#10B981] text-[#10B981]",
     bgGradient: "from-[#10B981]/20 via-[#059669]/10 to-transparent",
+  },
+  {
+    id: "strategic-partner",
+    category: "Strategic Event Partner",
+    title: "Natyam Garba by Pooja Dedhia",
+    subtitle: "Strategic Event Partner",
+    logoSrc: "/sponsors/strategic-event.jpg",
+    icon: Award,
+    accentColor: "border-[#FF9F1C] text-[#FF9F1C]",
+    bgGradient: "from-[#FF9F1C]/20 via-[#E03616]/10 to-transparent",
   },
   {
     id: "media-partner",

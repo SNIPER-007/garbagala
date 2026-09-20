@@ -67,26 +67,9 @@ export default function EventCreatives() {
         </p>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveTab(cat)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeTab === cat
-                ? "bg-gradient-to-r from-[#FF9F1C] to-[#F7B731] text-[#0A090D] shadow-lg scale-105"
-                : "bg-[#14121B] border border-[#272435] text-[#B5B1C5] hover:text-white hover:border-[#F7B731]/40"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
       {/* Grid Display */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCreatives.map((item) => {
+        {DEFAULT_CREATIVES.map((item) => {
           const Icon = item.icon;
           const hasImgError = imageErrorMap[item.id] || !item.imageSrc;
 

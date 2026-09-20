@@ -378,47 +378,6 @@ export default function HomePage() {
 
       <FestiveDivider />
 
-      {/* FAQ Accordion Section */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-sm text-[#8E8A9F] mt-2">
-            Everything you need to know about passes, entry, and event rules.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          {EVENT_DETAILS.faqs.map((faq, i) => {
-            const isOpen = openFaqIndex === i;
-            return (
-              <div
-                key={i}
-                className="card-glass rounded-2xl border border-[#272435] overflow-hidden transition-all"
-              >
-                <button
-                  onClick={() => setOpenFaqIndex(isOpen ? null : i)}
-                  className="w-full p-5 text-left flex justify-between items-center text-base font-bold text-white hover:text-[#F7B731]"
-                >
-                  <span>{faq.q}</span>
-                  {isOpen ? (
-                    <ChevronUp className="w-5 h-5 text-[#F7B731] shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-[#8E8A9F] shrink-0" />
-                  )}
-                </button>
-                {isOpen && (
-                  <div className="px-5 pb-5 text-xs text-[#B5B1C5] leading-relaxed border-t border-[#272435]/50 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
       {/* Contact Us Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#272435]">
         <div className="text-center max-w-2xl mx-auto mb-14">
@@ -499,6 +458,49 @@ export default function HomePage() {
               <span>📞 8828483919</span>
             </a>
           </div>
+        </div>
+      </section>
+
+      <FestiveDivider />
+
+      {/* FAQ Accordion Section */}
+      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-sm text-[#8E8A9F] mt-2">
+            Everything you need to know about passes, entry, and event rules.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {EVENT_DETAILS.faqs.map((faq, i) => {
+            const isOpen = openFaqIndex === i;
+            return (
+              <div
+                key={i}
+                className="card-glass rounded-2xl border border-[#272435] overflow-hidden transition-all"
+              >
+                <button
+                  onClick={() => setOpenFaqIndex(isOpen ? null : i)}
+                  className="w-full p-5 text-left flex justify-between items-center text-base font-bold text-white hover:text-[#F7B731]"
+                >
+                  <span>{faq.q}</span>
+                  {isOpen ? (
+                    <ChevronUp className="w-5 h-5 text-[#F7B731] shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-[#8E8A9F] shrink-0" />
+                  )}
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-5 text-xs text-[#B5B1C5] leading-relaxed border-t border-[#272435]/50 pt-3">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
