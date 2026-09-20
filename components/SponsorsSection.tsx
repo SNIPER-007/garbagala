@@ -97,18 +97,18 @@ export default function SponsorsSection() {
               </div>
 
               {/* Logo / Image Container */}
-              <div className="w-full h-24 flex items-center justify-center p-2 rounded-xl bg-[#0A090D]/80 border border-[#272435] my-2 group-hover:scale-105 transition-transform">
+              <div className="w-full h-44 sm:h-48 flex items-center justify-center p-3 rounded-xl bg-[#0A090D] border border-[#272435] my-3 group-hover:scale-[1.02] transition-transform overflow-hidden">
                 {!hasImageError ? (
                   <img
                     src={sponsor.logoSrc}
                     alt={sponsor.title}
                     onError={() => handleImageError(sponsor.id)}
-                    className="max-h-full max-w-full object-contain filter drop-shadow-md"
+                    className="w-full h-full object-contain filter drop-shadow-md"
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center space-y-1">
-                    <Icon className={`w-6 h-6 ${sponsor.accentColor.split(" ")[1]}`} />
-                    <span className="text-xs font-extrabold text-white font-heading">
+                    <Icon className={`w-10 h-10 ${sponsor.accentColor.split(" ")[1]}`} />
+                    <span className="text-sm font-extrabold text-white font-heading">
                       {sponsor.title.split(" ")[0]}
                     </span>
                   </div>
