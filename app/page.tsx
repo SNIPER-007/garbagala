@@ -444,16 +444,16 @@ export default function HomePage() {
             </div>
             <div>
               <h3 className="text-lg font-extrabold text-white font-heading">
-                Rtr. Dr. Akanksha Dubey
+                Rtr. Shruti Shah
               </h3>
               <p className="text-xs text-[#8E8A9F] mt-1">Event Co-ordinator</p>
             </div>
             <a
-              href="tel:8828483919"
+              href="tel:9321660742"
               className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#14121B] border border-[#272435] text-[#F7B731] hover:text-white hover:border-[#F7B731] font-bold text-sm transition-all"
             >
               <Phone className="w-4 h-4" />
-              <span>📞 8828483919</span>
+              <span>📞 9321660742</span>
             </a>
           </div>
         </div>
