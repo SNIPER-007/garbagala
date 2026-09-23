@@ -23,7 +23,12 @@ export default function CheckoutPage() {
 
   const unitPrice = 450;
   const subtotal = unitPrice * quantity;
-  const discountAmount = appliedCoupon === "NATYAMGARBA5" ? Number((subtotal * 0.05).toFixed(2)) : 0;
+  const discountAmount =
+    appliedCoupon === "NATYAMGARBA5"
+      ? Number((subtotal * 0.05).toFixed(2))
+      : appliedCoupon === "RTR350"
+      ? Number(((unitPrice - 350) * quantity).toFixed(2))
+      : 0;
   const totalAmount = Number((subtotal - discountAmount).toFixed(2));
 
   const handleDecreaseQty = () => {
@@ -48,6 +53,10 @@ export default function CheckoutPage() {
     if (code === "NATYAMGARBA5") {
       setAppliedCoupon("NATYAMGARBA5");
       setCouponSuccess("Coupon applied successfully — 5 percent off");
+      setCouponError("");
+    } else if (code === "RTR350") {
+      setAppliedCoupon("RTR350");
+      setCouponSuccess("Coupon applied successfully — Flat ₹350 per ticket");
       setCouponError("");
     } else {
       setCouponError("Invalid coupon code.");
@@ -261,7 +270,7 @@ export default function CheckoutPage() {
                     <CheckCircle2 className="w-5 h-5 text-[#10B981] shrink-0" />
                     <div>
                       <p className="text-xs font-bold text-[#10B981]">
-                        Coupon applied successfully — 5 percent off
+                        Coupon applied successfully — {appliedCoupon === "NATYAMGARBA5" ? "5% off" : "Flat ₹350 per ticket"}
                       </p>
                       <p className="text-[11px] text-[#B5B1C5]">
                         Code: <strong className="text-white">{appliedCoupon}</strong> (Saving ₹{discountAmount.toFixed(2)})

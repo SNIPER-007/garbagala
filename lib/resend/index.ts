@@ -81,7 +81,7 @@ export async function sendTicketEmail(payload: TicketEmailPayload) {
               ${payload.couponCode ? `
               <div style="margin-bottom: 12px;">
                 <div class="info-label">Coupon Applied</div>
-                <div class="info-val" style="color: #10B981;">${payload.couponCode} (5% Off - Saved ₹${payload.discountAmount})</div>
+                <div class="info-val" style="color: #10B981;">${payload.couponCode} (Saved ₹${payload.discountAmount})</div>
               </div>
               ` : ""}
             </div>

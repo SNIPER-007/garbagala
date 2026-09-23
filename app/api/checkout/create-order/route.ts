@@ -61,6 +61,10 @@ export async function POST(request: Request) {
       appliedCouponCode = "NATYAMGARBA5";
       discountPercent = 5;
       discountAmount = Number((subtotal * 0.05).toFixed(2));
+    } else if (normalizedCoupon === "RTR350") {
+      appliedCouponCode = "RTR350";
+      discountPercent = 0;
+      discountAmount = Number(((price - 350) * qty).toFixed(2));
     }
 
     const totalAmount = Number((subtotal - discountAmount).toFixed(2));
